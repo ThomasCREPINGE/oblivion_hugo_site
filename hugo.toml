@@ -1,4 +1,4 @@
 baseURL = 'https://thomascrepinge.github.io/oblivion_hugo_site/'
 languageCode = 'en-us'
-title = 'Oblivion Site'
-theme = 'ananke'
+title = 'Oblivion'
+theme = "oblivion_theme"

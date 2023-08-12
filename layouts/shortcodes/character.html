@@ -1,0 +1,138 @@
+
+
+
+{{ if .IsNamedParams }}
+
+	{{ $data := index $.Site.Data.character $.Params.data }}
+	{{ $proficiency := add (div (sub $data.level 1) 4) 2 }}
+
+	<div class="jumbotron jumbotron-fluid bg-dark text-white m-3">
+		<div class="container text-center">
+			<h1 class ="text-white">{{ $data.name }}</h1>
+			<h3 class="text-light">{{ $data.race.name }} - {{ $data.classe.name }} - {{ $data.classe.archetype.name }} - {{ $data.background.name }}</h3>
+			<h5 class="text-light">Niveau {{ $data.level }}</h5>
+		</div>
+	</div>
+
+	<div class="accordion m-3" id="character-sheet-accordion">
+		<div class="accordion-item">
+			<h2 class="accordion-header">
+				<button class="accordion-button bg-white text-dark" type="button"
+						data-bs-toggle="collapse" data-bs-target="#health-collapse"
+						aria-expanded="true" aria-controls="health-collapse">
+					<h4>Vie et Défense</h4>
+				</button>
+			</h2>
+			<div id="health-collapse" class="accordion-collapse collapse show" data-bs-parent="#character-sheet-accordion">
+				<div class="accordion-body">
+					<div class="container text-center">
+						{{ $constitution := index $data.characteristics 2 }}
+						{{ $constitution_mod := div (sub $constitution.value 10) 2 }}
+						{{ $health_points := add (add $data.health.dice $constitution_mod) (mul (sub $data.level 1) (add (div $data.health.dice 2) $constitution_mod) ) }}
+						Points de vie : {{ $health_points }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-item">
+			<h2 class="accordion-header">
+				<button class="accordion-button bg-white text-dark" type="button"
+						data-bs-toggle="collapse" data-bs-target="#characteristics-collapse"
+						aria-expanded="true" aria-controls="characteristics-collapse">
+					<h4>Caractéristiques</h4>
+				</button>
+			</h2>
+			<div id="characteristics-collapse" class="accordion-collapse collapse show" data-bs-parent="#character-sheet-accordion">
+				<div class="accordion-body">
+					<div class="container text-center">
+						<table class="table table-striped table-bordered table-sm">
+							<thead class="table-dark">
+								<tr>
+									<th scope="col-6"></th>
+									<th scope="col-2">Valeur</th>
+									<th scope="col-2">Modificateur</th>
+									<th scope="col-2">Jet de sauvegarde</th>
+								</tr>
+							</thead>
+							<tbody class="table-group-divider">
+								{{ range $data.characteristics }}
+									{{ $mod := div (sub .value 10) 2 }}
+									<tr>
+										<th scope="row">{{ .name }}</th>
+										<td>{{ .value }}</td>
+										<td>{{ $mod }}</td>
+										<td>
+											{{ if .saving_throw  }}
+												{{ add $mod $proficiency }}
+											{{ else }}
+												{{ $mod }}
+											{{ end }}
+										</td>
+									</tr>
+								{{ end }}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-item">
+			<h2 class="accordion-header">
+				<button class="accordion-button bg-white text-dark" type="button"
+						data-bs-toggle="collapse" data-bs-target="#skills-collapse"
+						aria-expanded="true" aria-controls="skills-collapse">
+					<h4>Compétences</h4>
+				</button>
+			</h2>
+			<div id="skills-collapse" class="accordion-collapse collapse show" data-bs-parent="#character-sheet-accordion">
+				<div class="accordion-body">
+					<div class="container text-center">
+						<table class="table table-striped table-bordered table-sm">
+							<thead class="table-dark">
+							<tr>
+								<th scope="col-3">Caractéristiques</th>
+								<th scope="col-9">Compétences</th>
+							</tr>
+							</thead>
+							<tbody class="table-group-divider">
+							{{ range $data.characteristics }}
+								{{ if isset . "skills" }}
+									{{ $mod := div (sub .value 10) 2 }}
+									<tr>
+										<th scope="row">{{ .name }}</th>
+										<td colspan="4">
+											<table class="table table-striped table-bordered table-sm">
+												<thead class="table-dark">
+													<tr>
+														<th scope="col-8"></th>
+														<th scope="col-4">Score</th>
+													</tr>
+												</thead>
+												<tbody class="table-group-divider">
+													{{ range .skills }}
+														<tr>
+															<th scope="row">{{ .name }}</th>
+															{{ if .proficiency  }}
+																{{ $score := add $mod $proficiency }}
+																<th scope="row">{{ $score }}</th>
+															{{ else }}
+																{{ $score := $mod }}
+																<th scope="row">{{ $score }}</th>
+															{{ end }}
+														</tr>
+													{{ end }}
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								{{ end }}
+							{{ end }}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{{- end -}}

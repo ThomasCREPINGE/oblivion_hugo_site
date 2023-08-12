@@ -1,0 +1,91 @@
+name: Fantasm
+race: 
+  name: Aasimar
+background: 
+  name: Commerçant
+classe: 
+  name: Barde
+  archetype: 
+    name: Taromancien
+level: 5
+movespeed: 9
+characteristics:
+  - name: Force
+    value: 10
+    saving_throw: false
+    skills:
+      - name: Athlétisme
+        proficiency: false
+        expert: false
+  - name: Dextérité
+    value: 14
+    saving_throw: true
+    skills:
+      - name: Acrobaties
+        proficiency: false
+        expert: false
+      - name: Discrétion
+        proficiency: false
+        expert: false
+      - name: Escamotage  
+        proficiency: false
+        expert: false
+  - name: Constitution
+    value: 14
+    saving_throw: false
+  - name: Intelligence
+    value: 12
+    skills:
+      - name: Arcanes
+        proficiency: true
+        expert: false
+      - name: Investigation
+        proficiency: true
+        expert: false
+      - name: Histoire
+        proficiency: false
+        expert: false
+      - name: Religion
+        proficiency: false
+        expert: false
+      - name: Nature
+        proficiency: false
+        expert: false
+    saving_throw: false
+  - name: Sagesse
+    value: 8
+    saving_throw: false
+    skills:
+      - name: Dressage
+        proficiency: true
+        expert: false
+      - name: Médecine
+        proficiency: true
+        expert: false
+      - name: Survie
+        proficiency: false
+        expert: false
+      - name: Perspicacité
+        proficiency: false
+        expert: false
+      - name: Perception
+        proficiency: false
+        expert: false
+  - name: Charisme
+    value: 20
+    saving_throw: true
+    skills:
+      - name: Persuasion
+        proficiency: true
+        expert: true
+      - name: Supercherie
+        proficiency: true
+        expert: true
+      - name: Intimidation
+        proficiency: true
+        expert: false
+      - name: Représentation
+        proficiency: false
+        expert: false
+health:
+  dice: 8
